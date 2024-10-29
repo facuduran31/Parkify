@@ -55,8 +55,35 @@ export class EstadoCocherasComponent {
 
   eliminarFila(index: number, event: Event) {
     event.stopPropagation();
-    this.filas.splice(index, 1);
+    
+    const cocheraId = this.filas[index].id; // Obtén el ID de la cochera a eliminar
+  
+    // Confirma la eliminación antes de proceder
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Una vez eliminada, no podrás recuperar esta cochera.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Eliminar'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Eliminar la cochera en la base de datos
+          await this.cocheras.eliminarCochera(cocheraId);
+          
+          // Luego eliminar la cochera de la lista en la interfaz
+          this.filas.splice(index, 1);
+          Swal.fire('Eliminada', 'La cochera ha sido eliminada.', 'success');
+        } catch (error) {
+          console.error('Error al eliminar la cochera en la base de datos:', error);
+          Swal.fire('Error', 'No se pudo eliminar la cochera en la base de datos.', 'error');
+        }
+      }
+    });
   }
+  
 
   cambiarDisponibilidadCochera(numeroFila: number, event: Event) {
     event.stopPropagation();

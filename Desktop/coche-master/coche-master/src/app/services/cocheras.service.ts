@@ -46,4 +46,14 @@ export class CocherasService {
       return null;
     });
   }
+
+  eliminarCochera(id: number) {
+    return fetch(`http://localhost:4000/cocheras/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: "Bearer " + (this.auth.getToken() ?? '')
+      }
+    }).then(r => r.json());
+  }
 }
