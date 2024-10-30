@@ -107,6 +107,7 @@ export class EstadoCocherasComponent {
   traerCocheras() {
     return this.cocheras.cocheras().then(cocheras => {
       this.filas = [];
+      console.log(cocheras)
 
       for (let cochera of cocheras) {
         this.estacionamientos.buscarEstacionamientoActivo(cochera.id).then(estacionamiento => {
@@ -133,6 +134,9 @@ export class EstadoCocherasComponent {
     }).then(res => {
       if (res.isConfirmed) {
         this.estacionamientos.estacionarAuto(res.value, idCochera).then(() => {
+          Swal.fire("Estacionamiento abierto", "El estacionamiento ha sido abierto correctamente.", "success");
+          // Editar descripcion de cochera actual para que la descripcion diga "Ocupado desde DD/MM/YYYY HH:MM"
+
           this.traerCocheras();
         }).catch(error => {
           console.error("Error al abrir el estacionamiento:", error);
