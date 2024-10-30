@@ -90,7 +90,6 @@ export class EstadoCocherasComponent {
     const cochera = this.filas[numeroFila];
     const opcion: string = cochera.deshabilitada ? "enable" : "disable"; // Determina la opción
   
-    // Actualiza la cochera en la base de datos
     this.cocheras.cambiarDisponibilidadCochera(cochera, opcion).then(() => {
       cochera.deshabilitada = !cochera.deshabilitada; // Cambia el estado en la interfaz
     }).catch(error => {
@@ -133,7 +132,6 @@ export class EstadoCocherasComponent {
       }
     }).then(res => {
       if (res.isConfirmed) {
-        console.log("Tengo que estacionar la patente", res.value);
         this.estacionamientos.estacionarAuto(res.value, idCochera).then(() => {
           this.traerCocheras();
         }).catch(error => {
