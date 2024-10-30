@@ -87,12 +87,19 @@ export class EstadoCocherasComponent {
 
   cambiarDisponibilidadCochera(numeroFila: number, event: Event) {
     event.stopPropagation();
-    if (this.filas[numeroFila].deshabilitada === true) {
-      this.filas[numeroFila].deshabilitada = false;
-    } else {
-      this.filas[numeroFila].deshabilitada = true;
-    }
+    const cochera = this.filas[numeroFila];
+    const opcion: string = cochera.deshabilitada ? "enable" : "disable"; // Determina la opción
+  
+    // Actualiza la cochera en la base de datos
+    this.cocheras.cambiarDisponibilidadCochera(cochera, opcion).then(() => {
+      cochera.deshabilitada = !cochera.deshabilitada; // Cambia el estado en la interfaz
+    }).catch(error => {
+      console.error('Error al actualizar la cochera en la base de datos:', error);
+      Swal.fire('Error', 'No se pudo actualizar la disponibilidad de la cochera en la base de datos.', 'error');
+    });
   }
+  
+  
 
   ngOnInit() {
     this.traerCocheras();
@@ -115,12 +122,12 @@ export class EstadoCocherasComponent {
 
   abrirModalNuevoEstacionamiento(idCochera: number) {
     Swal.fire({
-      title: "Ingrese la patente del vehiculo",
+      title: "Ingrese la patente del vehículo",
       input: "text",
       showCancelButton: true,
       inputValidator: (value) => {
         if (!value) {
-          return "Ingrese una patente valida!";
+          return "¡Ingrese una patente válida!";
         }
         return;
       }
@@ -129,8 +136,11 @@ export class EstadoCocherasComponent {
         console.log("Tengo que estacionar la patente", res.value);
         this.estacionamientos.estacionarAuto(res.value, idCochera).then(() => {
           this.traerCocheras();
+        }).catch(error => {
+          console.error("Error al abrir el estacionamiento:", error);
         });
       }
     });
   }
+  
 }

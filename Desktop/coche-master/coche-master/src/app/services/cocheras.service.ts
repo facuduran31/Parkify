@@ -56,4 +56,24 @@ export class CocherasService {
       }
     }).then(r => r.json());
   }
+
+  cambiarDisponibilidadCochera(cochera: Cochera, opcion: string) {
+    return fetch(`http://localhost:4000/cocheras/${cochera.id}/${opcion}`, {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: "Bearer " + (this.auth.getToken() ?? '')
+      },
+      body: JSON.stringify(cochera)
+    }).then(response => {
+      if (response.ok) {
+        return response.json(); 
+      }
+      throw new Error("Error: Unauthorized or other server issue.");
+    }).catch(error => {
+      console.error(error);
+      return null; 
+    });
+  }
+  
 }

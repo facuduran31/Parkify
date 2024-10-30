@@ -25,7 +25,7 @@
         <div [ngClass]="{disponible: !fila.deshabilitada, ocupado: fila.deshabilitada}"> {{ fila.deshabilitada ? 'No Disponible' : 'Disponible' }}</div>
         <div>{{ fila.descripcion }}</div>   
         <div>   
-            <button (click)="eliminarFila(i,$event)" class="boton-resaltado-2">Cerrar</button>
+            <button (click)="eliminarFila(i,$event)" class="boton-resaltado-2">Eliminar</button>
             <button (click)="cambiarDisponibilidadCochera(i,$event)" class="boton-resaltado-3">🚫</button>
         </div>
     </button>
