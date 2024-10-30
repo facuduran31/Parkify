@@ -80,27 +80,29 @@
     border-radius: 15px;
 }
 
-.boton-resaltado{
+.boton-resaltado {
     cursor: pointer;
-    background-color:#051135;
+    padding: 8px;
+    background-color: #03CA85; 
     color: white;
-    padding: 10px;
-    margin: 0;
-    transition: all 0.3 ease;
-    box-shadow: 0px 4px 6px white;
+    border-radius: 15px;
+    margin: 5px; 
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-size: 15px;
 }
 
 .boton-resaltado:hover {
-    transform: translateY(-3px);
-    box-shadow: 0px 8px 15px white;
+    background-color: #005336;
+    color: white;
+    border-color: #2c3e50;
+    transform: translateY(-2px)
 }
 
 .boton-agregar{
-    border: 3px solid #051135   ;
     display: flex;
     justify-content: center;
-    background-color: #051135;
-    margin: 0;
+    background-color: #fff;
+    margin: 10px 0;
     padding: 0;
 }
 
@@ -112,9 +114,8 @@
 
 .boton-resaltado-2 {
     cursor: pointer;
-    padding: 10px 15px;
-    border: 2px solid #051135;
-    background-color: #051135; 
+    padding: 15px;
+    background-color: #034CBE; 
     color: white;
     border-radius: 5px;
     margin-right: 10px; 
@@ -127,24 +128,26 @@
     z-index: 100;
     cursor: pointer;
     padding: 10px 15px;
-    border: 2px solid #051135;
-    background-color: #f0f0f0; 
-    color: #051135;
+    background-color: rgb(255, 0, 0); 
+    color: #fff;
     border-radius: 5px;
     margin-right: 10px; 
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .boton-resaltado-2:hover {
-    background-color: #051135;
+    background-color: #160000;
     color: white;
     border-color: #2c3e50;
     transform: translateY(-2px)
 }
 
 .boton-resaltado-3:hover {
-    background-color: #051135;
+    background-color: #350505;
     color: white;
-    border-color: #2c3e50;
     transform: translateY(-2px)
+}
+
+.primary{
+    background-color: #034CBE;
 }

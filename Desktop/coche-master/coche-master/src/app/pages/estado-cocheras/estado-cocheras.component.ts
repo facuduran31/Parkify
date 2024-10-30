@@ -33,8 +33,8 @@ export class EstadoCocherasComponent {
 
   async agregarFila() {
     const nuevaCochera: Cochera = {
-      descripcion: 'Nueva Cochera', // Puedes ajustar la descripción
-      id: this.siguienteNumero,
+      descripcion: 'Disponible', // Puedes ajustar la descripción
+      id: 0,
       deshabilitada: false,
       eliminada: false,
       activo: false
@@ -45,8 +45,7 @@ export class EstadoCocherasComponent {
       await this.cocheras.agregarCochera(nuevaCochera);
 
       // Si se agregó exitosamente en la base de datos, actualizar la interfaz
-      this.filas.push(nuevaCochera);
-      this.siguienteNumero += 1;
+      this.traerCocheras();
     } catch (error) {
       console.error('Error al agregar la cochera en la base de datos:', error);
       Swal.fire('Error', 'No se pudo agregar la cochera en la base de datos.', 'error');
@@ -106,24 +105,29 @@ export class EstadoCocherasComponent {
 
   traerCocheras() {
     return this.cocheras.cocheras().then(cocheras => {
-      this.filas = [];
-      console.log(cocheras)
-
-      for (let cochera of cocheras) {
-        this.estacionamientos.buscarEstacionamientoActivo(cochera.id).then(estacionamiento => {
-          this.filas.push({
-            ...cochera,
-            activo: estacionamiento,
-          });
-        });
-      }
+      const promesas = cocheras.map((c: { id: number; }) =>
+        this.estacionamientos.buscarEstacionamientoActivo(c.id).then(estacionamiento => ({
+          ...c,
+          activo: estacionamiento,
+        }))
+      );
+  
+      Promise.all(promesas).then(resultados => {
+        this.filas = resultados;
+        console.log(this.filas);
+      });
     });
   }
+  
 
   abrirModalNuevoEstacionamiento(idCochera: number) {
     Swal.fire({
       title: "Ingrese la patente del vehículo",
       input: "text",
+      inputPlaceholder: "ABP 474",
+      confirmButtonColor: "#034CBE",
+      confirmButtonText: "Estacionar",
+      cancelButtonText: "Cancelar",
       showCancelButton: true,
       inputValidator: (value) => {
         if (!value) {
@@ -134,8 +138,7 @@ export class EstadoCocherasComponent {
     }).then(res => {
       if (res.isConfirmed) {
         this.estacionamientos.estacionarAuto(res.value, idCochera).then(() => {
-          Swal.fire("Estacionamiento abierto", "El estacionamiento ha sido abierto correctamente.", "success");
-          // Editar descripcion de cochera actual para que la descripcion diga "Ocupado desde DD/MM/YYYY HH:MM"
+          Swal.fire("Estacionamiento confirmado", "El vehículo fue estacionado correctamente.", "success");
 
           this.traerCocheras();
         }).catch(error => {
@@ -168,7 +171,7 @@ export class EstadoCocherasComponent {
         text: `Tiempo transcurrido: ${horas}hs ${minutos}mins - Precio: $${precio.toFixed(2)}`,
         icon: "info",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#00c98d",
         cancelButtonColor: "#d33",
         confirmButtonText: "Cobrar",
         cancelButtonText: "Cancelar"
