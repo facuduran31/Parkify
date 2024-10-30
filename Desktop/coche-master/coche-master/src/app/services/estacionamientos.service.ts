@@ -10,7 +10,7 @@ export class EstacionamientosService {
 
   // Método para obtener estacionamientos activos
   buscarEstacionamientoActivo(idCochera: number) {
-    return fetch(`http://localhost:4000/estacionamientos/${idCochera}`, {
+    return fetch(`http://localhost:4000/estacionamientos/cochera/${idCochera}`, {
       method: 'GET',
       headers: {
         Authorization: "Bearer " + this.auth.getToken(),
@@ -42,6 +42,27 @@ export class EstacionamientosService {
     });
   }
   
-  
+  cobrarEstacionamiento(idCochera: number, patente: string, costo: number) {
+    return fetch(`http://localhost:4000/estacionamientos/cerrar/`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: "Bearer " + this.auth.getToken(),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        patente: patente,
+        idCochera: idCochera,
+        costo: costo 
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(error => {
+          throw new Error(error.message);
+        });
+      }
+      return response.json();
+    });
+}
 
 }

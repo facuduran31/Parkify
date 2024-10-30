@@ -23,7 +23,7 @@
     <button (click)="abrirModalNuevoEstacionamiento(fila.id)" [disabled] = "fila.deshabilitada" *ngFor="let fila of filas; let i = index" class="fila">
         <div>{{ fila.id }}</div>
         <div [ngClass]="{disponible: !fila.deshabilitada, ocupado: fila.deshabilitada}"> {{ fila.deshabilitada ? 'No Disponible' : 'Disponible' }}</div>
-        <div>{{ fila.descripcion }}</div>   
+        <div>{{ fila.descripcion }} <button (click)="cobrarEstacionamiento(fila.id)" *ngIf="fila.deshabilitada==true && fila.descripcion !== 'Nueva Cochera'" class="boton-resaltado disponible">Cobrar</button></div>   
         <div>   
             <button (click)="eliminarFila(i,$event)" class="boton-resaltado-2">Eliminar</button>
             <button (click)="cambiarDisponibilidadCochera(i,$event)" class="boton-resaltado-3">🚫</button>
