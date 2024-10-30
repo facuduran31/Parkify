@@ -33,7 +33,7 @@ export class EstadoCocherasComponent {
 
   async agregarFila() {
     const nuevaCochera: Cochera = {
-      descripcion: 'Disponible', // Puedes ajustar la descripción
+      descripcion: 'Disponible', 
       id: 0,
       deshabilitada: false,
       eliminada: false,
@@ -44,7 +44,6 @@ export class EstadoCocherasComponent {
       // Persistencia en la base de datos usando el servicio de cocheras
       await this.cocheras.agregarCochera(nuevaCochera);
 
-      // Si se agregó exitosamente en la base de datos, actualizar la interfaz
       this.traerCocheras();
     } catch (error) {
       console.error('Error al agregar la cochera en la base de datos:', error);
@@ -55,9 +54,8 @@ export class EstadoCocherasComponent {
   eliminarFila(index: number, event: Event) {
     event.stopPropagation();
     
-    const cocheraId = this.filas[index].id; // Obtén el ID de la cochera a eliminar
-  
-    // Confirma la eliminación antes de proceder
+    const cocheraId = this.filas[index].id; 
+
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'Una vez eliminada, no podrás recuperar esta cochera.',

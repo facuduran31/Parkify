@@ -23,7 +23,7 @@ export class CocherasService {
       throw new Error("Error: Unauthorized or other server issue.");
     }).catch(error => {
       console.error(error);
-      return null; // Maneja el error devolviendo `null` o lanza un error específico según sea necesario
+      return null; 
     });
   }
 

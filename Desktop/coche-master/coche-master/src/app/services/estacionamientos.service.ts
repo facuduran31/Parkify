@@ -22,9 +22,8 @@ export class EstacionamientosService {
     });
   }
 
-  // Método para estacionar un auto COMPLETAR
   estacionarAuto(patente: string, idCochera: number) {
-    const username = this.auth.getUsername();  // Verifica que `getUsername` retorne un valor correcto
+    const username = this.auth.getUsername(); 
     return fetch(`http://localhost:4000/estacionamientos/abrir`, {
       method: 'POST',
       headers: {
