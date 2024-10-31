@@ -112,7 +112,6 @@ export class EstadoCocherasComponent {
   
       Promise.all(promesas).then(resultados => {
         this.filas = resultados;
-        console.log(this.filas);
       });
     });
   }
@@ -156,6 +155,8 @@ export class EstadoCocherasComponent {
         });
         return;
       }
+
+      console.log(estacionamiento)
   
       // Convertir horaIngreso a un objeto Date
       const horaIngreso = new Date(estacionamiento[0].horaIngreso);
